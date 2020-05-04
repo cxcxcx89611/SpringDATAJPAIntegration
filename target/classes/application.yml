@@ -1,0 +1,46 @@
+server:   # 服务器基本信息配置
+  port: 8080
+  servlet:
+    context-path: /ad-extension-study
+
+spring:
+  application:
+    name: ad-extension-study
+  # jpa 相关配置
+  jpa:
+    # 打印执行的 SQL 及参数
+    show-sql: true
+    hibernate:
+      # DDL: 用于定义数据库的三级结构，包括外模式、概念模式、内模式及其相互之间的映像，定义数据的完整性、安全控制等约束
+      # 例如: CREATE、ALTER、DROP、TRUNCATE 语句, DDL 不需要提交
+      ddl-auto: none  # 什么都不做
+      # 其他可选值
+      # create: 每次运行程序时, 都会重新创建表, 故而数据会丢失
+      # create-drop: 每次运行程序时会先创建表结构, 然后待程序结束时清空表
+      # update: 每次运行程序, 没有表时会创建表, 如果对象发生改变会更新表结构, 原有数据不会清空, 只会更新
+      # validate: 运行程序会校验数据与数据库的字段类型是否相同, 字段不同会报错
+    properties:
+      # 输出 SQL 语句
+      hibernate.show_sql: true
+      # 无论多长都只会在一行显示。我们可以将 format_sql 配制为true, 这样 Hibernate 会先将sql格式化, 然后再输出
+      hibernate.format_sql: true
+    # 关闭懒加载配置, 否则会报懒加载错误
+    open-in-view: false
+  # 数据源配置
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/ad_extension_study?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: root
+    # 指定连接池类型, 也是 SpringBoot2 默认选择使用的连接池
+    type: com.zaxxer.hikari.HikariDataSource
+    # JDBC 驱动类
+    driver-class-name: com.mysql.jdbc.Driver
+    # 连接池配置
+    hikari:
+      maximum-pool-size: 8                  # 最大池大小
+      minimum-idle: 4                       # 连接池中维护的最小空闲连接数
+      idle-timeout: 30000                   # 允许连接在连接池中空闲的最长时间(毫秒)
+      connection-timeout: 30000             # 客户端等待连接池连接的最大毫秒数
+      max-lifetime: 45000                   # 池中连接关闭后的最长生命周期(毫秒)
+      auto-commit: true                     # 从池返回的连接的默认自动提交行为(默认为 true)
+      pool-name: AdExtensionStudyHikariCP   # 连接池的名称
